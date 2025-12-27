@@ -139,18 +139,37 @@ public class PlayerController : MonoBehaviour
             spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Death, false, () =>
             {
                 Time.timeScale = 0;
-                if (gameOverPanel != null) gameOverPanel.SetActive(true);
+                if (gameOverPanel != null)
+                {
+                    gameOverPanel.SetActive(true);
+                    // Update the game over manager with final score
+                    GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
+                    if (gom != null)
+                    {
+                        gom.UpdateScoreDisplay();
+                    }
+                }
             });
         }
         else
         {
             Time.timeScale = 0;
-            if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            if (gameOverPanel != null)
+            {
+                gameOverPanel.SetActive(true);
+                // Update the game over manager with final score
+                GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
+                if (gom != null)
+                {
+                    gom.UpdateScoreDisplay();
+                }
+            }
         }
     }
 
     public void RestartGame()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
