@@ -853,7 +853,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8957324059118975939, guid: 4e5008b694792854f9df85805ad6f966, type: 3}
+  m_Sprite: {fileID: -2042591907376375506, guid: 436464090ca272c49b13e24598358f16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -872,7 +872,7 @@ Transform:
   m_GameObject: {fileID: 1211701979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -529, y: -2027, z: 0}
+  m_LocalPosition: {x: -528.7, y: -2027, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1072,6 +1072,7 @@ GameObject:
   - component: {fileID: 1828324539}
   - component: {fileID: 1828324538}
   - component: {fileID: 1828324537}
+  - component: {fileID: 1828324540}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1169,11 +1170,58 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1828324540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828324536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1785d6c7e85f0c3408858cc2459da3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteAnimator
+  framesPerSecond: 10
+  idleSprites:
+  - {fileID: 3204480812468917802, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: 3522011133049882637, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: -2907624155043114565, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: -970496918810939563, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: -6943447523856610506, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: -7487436801176157817, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: 8706567805487113664, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: 4588736447598766473, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: -436730644578740556, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  - {fileID: 6042557600975065454, guid: 837d8a9f3ebeca04d82817ec8f5f55cb, type: 3}
+  attackSprites:
+  - {fileID: 8304861591815558886, guid: 02c76aafee76d0943851a455e499918d, type: 3}
+  - {fileID: 4266374257060350693, guid: 02c76aafee76d0943851a455e499918d, type: 3}
+  - {fileID: 6355687800426313508, guid: 02c76aafee76d0943851a455e499918d, type: 3}
+  - {fileID: 4357845935041768834, guid: 02c76aafee76d0943851a455e499918d, type: 3}
+  attack2Sprites:
+  - {fileID: 1334909474723237668, guid: 45ad9254df3e10f4db18e6a9288347bc, type: 3}
+  - {fileID: -4680654449115406751, guid: 45ad9254df3e10f4db18e6a9288347bc, type: 3}
+  - {fileID: -7127675528933595853, guid: 45ad9254df3e10f4db18e6a9288347bc, type: 3}
+  - {fileID: -7259909186463099801, guid: 45ad9254df3e10f4db18e6a9288347bc, type: 3}
+  hitSprites:
+  - {fileID: 4237140444910105288, guid: f73f50a22ac17184098f8710e61b4de1, type: 3}
+  deathSprites:
+  - {fileID: 1452178025368261671, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -785879526101056908, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -2966833867120439964, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: 6793075310086557748, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -589987812659426126, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -8079294592371786605, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: 1882902784293954525, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -2111084821604277226, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: -287577689670056395, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  - {fileID: 2024861783713739880, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
 --- !u!1 &1968302026
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,23 +18,59 @@ public class PlayerController : MonoBehaviour
     public Text missText;
     public GameObject gameOverPanel;
 
+    private SpriteAnimator spriteAnimator;
+    private bool isDead = false;
+    private bool lastFacingRight = true;
+
     void Start()
     {
         Time.timeScale = 1;
         audioSource = gameObject.AddComponent<AudioSource>();
+        spriteAnimator = GetComponent<SpriteAnimator>();
+        if (spriteAnimator == null)
+        {
+            Debug.LogError("SpriteAnimator component not found on PlayerController!");
+        }
+        else
+        {
+            spriteAnimator.SetFacingDirection(true);
+        }
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         UpdateUI();
     }
 
     void Update()
     {
+        if (isDead) { return; }
+
+        if (spriteAnimator != null && spriteAnimator.IsAnimationPlaying())
+            return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         bool clickedLeft = mousePos.x < 0;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            bool faceRight = !clickedLeft;
+            lastFacingRight = faceRight;
+            if (spriteAnimator != null)
+            {
+                spriteAnimator.SetFacingDirection(faceRight);
+                spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Attack, false);
+            }
             ProcessInput(Projectile.ShapeType.Square, clickedLeft);
+        }
         else if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            bool faceRight = !clickedLeft;
+            lastFacingRight = faceRight;
+            if (spriteAnimator != null)
+            {
+                spriteAnimator.SetFacingDirection(faceRight);
+                spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Attack2, false);
+            }
             ProcessInput(Projectile.ShapeType.Circle, clickedLeft);
+        }
     }
 
     void ProcessInput(Projectile.ShapeType type, bool isLeftSide)
@@ -72,7 +108,15 @@ public class PlayerController : MonoBehaviour
     {
         misses++;
         audioSource.PlayOneShot(missSound);
-        if (misses >= maxMisses) GameOver();
+
+        if (spriteAnimator != null)
+        {
+            spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Hit, false);
+        }
+        if (misses >= maxMisses)
+        {
+            GameOver();
+        }
     }
 
     void ClearScreen()
@@ -88,8 +132,21 @@ public class PlayerController : MonoBehaviour
 
     void GameOver()
     {
-        Time.timeScale = 0;
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
+        isDead = true;
+
+        if (spriteAnimator != null)
+        {
+            spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Death, false, () =>
+            {
+                Time.timeScale = 0;
+                if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            });
+        }
+        else
+        {
+            Time.timeScale = 0;
+            if (gameOverPanel != null) gameOverPanel.SetActive(true);
+        }
     }
 
     public void RestartGame()
