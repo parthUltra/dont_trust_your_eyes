@@ -152,6 +152,13 @@ public class PlayerController : MonoBehaviour
             UpdateUI();
         }
     }
+    void ClearAllPowerups()
+    {
+        foreach (PowerupBase powerup in FindObjectsOfType<PowerupBase>())
+        {
+            Destroy(powerup.gameObject);
+        }
+    }
 
     void GameOver()
     {
@@ -189,12 +196,12 @@ public class PlayerController : MonoBehaviour
             {
                 spawner.StopSpawning();
             }
-            
             PowerupSpawner powerupSpawner = FindObjectOfType<PowerupSpawner>();
             if (powerupSpawner != null)
             {
                 powerupSpawner.StopSpawning();
             }
+            ClearAllPowerups();
             GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
             if (gom != null)
             {
