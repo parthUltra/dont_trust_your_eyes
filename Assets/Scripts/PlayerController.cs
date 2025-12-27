@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("Legacy UI")]
-    public Text scoreText;
-    public Text missText;
+    public TextMeshProUGUI scoreText;
     public GameObject gameOverPanel;
 
     [Header("New Individual Heart UI")]
@@ -141,7 +141,6 @@ public class PlayerController : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null) scoreText.text = "Score: " + score;
-        if (missText != null) missText.text = "Misses: " + misses + "/" + maxMisses;
 
         // --- UPDATED HEART LOGIC ---
         // Loops through your 3 heart images and turns them empty based on miss count
