@@ -2105,7 +2105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5e5fa9473e8af44958109351a33fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  hitRange: 7
   score: 0
   misses: 0
   maxMisses: 3
@@ -2240,6 +2239,12 @@ MonoBehaviour:
   - {fileID: -2111084821604277226, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
   - {fileID: -287577689670056395, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
   - {fileID: 2024861783713739880, guid: 03610ada6c6d44145932e72c631ef38a, type: 3}
+  swordHitbox: {fileID: 0}
+  showDebugHitbox: 0
+  attackHitboxFrames: {x: 0, y: 4}
+  attack2HitboxFrames: {x: 0, y: 4}
+  hitboxOffsetRight: {x: 0.25, y: 0}
+  hitboxOffsetLeft: {x: -0.25, y: 0}
 --- !u!1 &1968302026
 GameObject:
   m_ObjectHideFlags: 0

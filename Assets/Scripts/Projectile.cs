@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Projectile : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     private AudioSource audioSource;
     private PlayerController playerController;
-    private bool hasBeenClicked = false;
+    private bool hasBeenHit = false;
 
     void Start()
     {
@@ -23,12 +22,26 @@ public class Projectile : MonoBehaviour
 
         playerController = FindObjectOfType<PlayerController>();
 
+        // Ensure there's a Rigidbody2D (required for trigger detection)
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody2D>();
+            rb.isKinematic = true;
+            rb.gravityScale = 0f;
+        }
+
         // Ensure there's a collider on this projectile
         Collider2D collider = GetComponent<Collider2D>();
         if (collider == null)
         {
             Debug.LogWarning($"Projectile {gameObject.name} is missing a Collider2D component! Adding CircleCollider2D as default.");
-            gameObject.AddComponent<CircleCollider2D>();
+            CircleCollider2D newCollider = gameObject.AddComponent<CircleCollider2D>();
+            newCollider.isTrigger = true;
+        }
+        else
+        {
+            collider.isTrigger = true;
         }
     }
 
@@ -37,23 +50,10 @@ public class Projectile : MonoBehaviour
         // Moves toward the center
         transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, speed * Time.deltaTime);
 
-        // Check for mouse clicks
-        if (!hasBeenClicked && playerController != null && !playerController.IsDead())
-        {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                CheckClick(ShapeType.Square);
-            }
-            else if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                CheckClick(ShapeType.Circle);
-            }
-        }
-
         // Auto-destruct and register miss if real projectile hits center
         if (Vector3.Distance(transform.position, Vector3.zero) < 0.1f)
         {
-            if (isReal && !hasBeenClicked)
+            if (isReal && !hasBeenHit)
             {
                 if (playerController != null) 
                     playerController.RegisterMiss();
@@ -62,45 +62,14 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    void CheckClick(ShapeType clickedType)
+    public bool HasBeenHit()
     {
-        if (hasBeenClicked) return;
-
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        mousePos.z = transform.position.z;
-
-        // Check if click is within this projectile's collider
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider != null && collider.OverlapPoint(mousePos))
-        {
-            hasBeenClicked = true;
-
-            // Determine which side this projectile is on
-            bool isLeftSide = transform.position.x < 0;
-
-            // Determine which side was clicked
-            bool clickedLeft = mousePos.x < 0;
-
-            // Check if this is the correct match
-            bool correctMatch = (isReal && shapeType == clickedType && isLeftSide == clickedLeft);
-
-            if (playerController != null)
-            {
-                playerController.ProcessProjectileClick(correctMatch);
-            }
-
-            // Destroy this and all other projectiles on the screen
-            ClearAllProjectiles();
-        }
+        return hasBeenHit;
     }
 
-    void ClearAllProjectiles()
+    public void OnSwordHit(bool wasCorrect)
     {
-        Projectile[] allProjectiles = FindObjectsOfType<Projectile>();
-        foreach (Projectile p in allProjectiles)
-        {
-            Destroy(p.gameObject);
-        }
+        hasBeenHit = true;
     }
 
     public bool IsOnLeftSide()
