@@ -5,7 +5,6 @@ public class Spawner : MonoBehaviour
 {
     public GameObject squarePrefab;
     public GameObject circlePrefab;
-    
     [Header("Scaling Difficulty")]
     public float initialSpeed = 5f;
     public float maxSpeed = 15f;
@@ -17,25 +16,30 @@ public class Spawner : MonoBehaviour
 
     private float currentSpeed;
     private float currentDelay;
+    private Coroutine spawnCoroutine;
+    private bool isStopped = false;
 
     void Start()
     {
         currentSpeed = initialSpeed;
         currentDelay = initialDelay;
-        StartCoroutine(SpawnRoutine());
+        spawnCoroutine = StartCoroutine(SpawnRoutine());
     }
 
     IEnumerator SpawnRoutine()
     {
-        while (true)
+        while (!isStopped)
         {
-            // Wait until no Projectiles are left on screen
-            while (FindObjectsOfType<Projectile>().Length > 0)
+            while (FindObjectsOfType<Projectile>().Length > 0 && !isStopped)
             {
                 yield return null;
             }
 
+            if (isStopped) yield break;
+
             yield return new WaitForSeconds(currentDelay);
+
+            if (isStopped) yield break;
 
             SpawnWave();
 
@@ -45,28 +49,37 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void SpawnWave()
-{
-    bool isSquare = Random.value > 0.5f;
-    GameObject prefab = isSquare ? squarePrefab : circlePrefab;
-
-    // Instantiate Left and Right
-    GameObject leftObj = Instantiate(prefab, new Vector3(-spawnDistance, 0, 0), Quaternion.identity);
-    GameObject rightObj = Instantiate(prefab, new Vector3(spawnDistance, 0, 0), Quaternion.identity);
-
-    // --- NEW LOGIC TO FLIP THE RIGHT FIREBALL ---
-    // The right fireball needs to face Left, so we flip it.
-    SpriteRenderer rightRenderer = rightObj.GetComponent<SpriteRenderer>();
-    if (rightRenderer != null)
+    public void StopSpawning()
     {
-        rightRenderer.flipX = true; 
+        isStopped = true;
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
     }
-    // --------------------------------------------
 
-    bool leftIsReal = Random.value > 0.5f;
-    SetupProjectile(leftObj, leftIsReal);
-    SetupProjectile(rightObj, !leftIsReal);
-}
+    void SpawnWave()
+    {
+        bool isSquare = Random.value > 0.5f;
+        GameObject prefab = isSquare ? squarePrefab : circlePrefab;
+
+        // Instantiate Left and Right
+        GameObject leftObj = Instantiate(prefab, new Vector3(-spawnDistance, 0, 0), Quaternion.identity);
+        GameObject rightObj = Instantiate(prefab, new Vector3(spawnDistance, 0, 0), Quaternion.identity);
+
+        // --- NEW LOGIC TO FLIP THE RIGHT FIREBALL ---
+        // The right fireball needs to face Left, so we flip it.
+        SpriteRenderer rightRenderer = rightObj.GetComponent<SpriteRenderer>();
+        if (rightRenderer != null)
+        {
+            rightRenderer.flipX = true;
+        }
+        // --------------------------------------------
+
+        bool leftIsReal = Random.value > 0.5f;
+        SetupProjectile(leftObj, leftIsReal);
+        SetupProjectile(rightObj, !leftIsReal);
+    }
 
     void SetupProjectile(GameObject obj, bool real)
     {

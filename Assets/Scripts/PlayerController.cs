@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         audioSource = gameObject.AddComponent<AudioSource>();
         spriteAnimator = GetComponent<SpriteAnimator>();
-        
         if (spriteAnimator == null)
         {
             Debug.LogError("SpriteAnimator component not found on PlayerController!");
@@ -46,8 +45,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        
-        UpdateUI(); 
+        if (scoreText != null)
+        {
+            scoreText.gameObject.SetActive(true);
+        }
+        UpdateUI();
     }
 
     void Update()
@@ -191,6 +193,18 @@ public class PlayerController : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+
+            if (scoreText != null)
+            {
+                scoreText.gameObject.SetActive(false);
+            }
+
+            // Stop the spawner
+            Spawner spawner = FindObjectOfType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.StopSpawning();
+            }
             GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
             if (gom != null)
             {
