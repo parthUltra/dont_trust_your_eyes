@@ -46,17 +46,27 @@ public class Spawner : MonoBehaviour
     }
 
     void SpawnWave()
+{
+    bool isSquare = Random.value > 0.5f;
+    GameObject prefab = isSquare ? squarePrefab : circlePrefab;
+
+    // Instantiate Left and Right
+    GameObject leftObj = Instantiate(prefab, new Vector3(-spawnDistance, 0, 0), Quaternion.identity);
+    GameObject rightObj = Instantiate(prefab, new Vector3(spawnDistance, 0, 0), Quaternion.identity);
+
+    // --- NEW LOGIC TO FLIP THE RIGHT FIREBALL ---
+    // The right fireball needs to face Left, so we flip it.
+    SpriteRenderer rightRenderer = rightObj.GetComponent<SpriteRenderer>();
+    if (rightRenderer != null)
     {
-        bool isSquare = Random.value > 0.5f;
-        GameObject prefab = isSquare ? squarePrefab : circlePrefab;
-
-        GameObject leftObj = Instantiate(prefab, new Vector3(-spawnDistance, 0, 0), Quaternion.identity);
-        GameObject rightObj = Instantiate(prefab, new Vector3(spawnDistance, 0, 0), Quaternion.identity);
-
-        bool leftIsReal = Random.value > 0.5f;
-        SetupProjectile(leftObj, leftIsReal);
-        SetupProjectile(rightObj, !leftIsReal);
+        rightRenderer.flipX = true; 
     }
+    // --------------------------------------------
+
+    bool leftIsReal = Random.value > 0.5f;
+    SetupProjectile(leftObj, leftIsReal);
+    SetupProjectile(rightObj, !leftIsReal);
+}
 
     void SetupProjectile(GameObject obj, bool real)
     {
