@@ -199,11 +199,17 @@ public class PlayerController : MonoBehaviour
                 scoreText.gameObject.SetActive(false);
             }
 
-            // Stop the spawner
+            // Stop the spawners
             Spawner spawner = FindObjectOfType<Spawner>();
             if (spawner != null)
             {
                 spawner.StopSpawning();
+            }
+            
+            PowerupSpawner powerupSpawner = FindObjectOfType<PowerupSpawner>();
+            if (powerupSpawner != null)
+            {
+                powerupSpawner.StopSpawning();
             }
             GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
             if (gom != null)
