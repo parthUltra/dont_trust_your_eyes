@@ -160,6 +160,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ClearAllProjectiles()
+    {
+        foreach (Projectile projectile in FindObjectsOfType<Projectile>())
+        {
+            Destroy(projectile.gameObject);
+        }
+    }
+
     void GameOver()
     {
         isDead = true;
@@ -202,6 +210,7 @@ public class PlayerController : MonoBehaviour
                 powerupSpawner.StopSpawning();
             }
             ClearAllPowerups();
+            ClearAllProjectiles();
             GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
             if (gom != null)
             {
