@@ -5,18 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Gameplay Settings")]
     public float hitRange = 5.0f;
     public int score = 0;
     public int misses = 0;
     public int maxMisses = 3;
 
+    [Header("Audio")]
     public AudioClip hitSound;
     public AudioClip missSound;
     private AudioSource audioSource;
 
+    [Header("Legacy UI")]
     public Text scoreText;
     public Text missText;
     public GameObject gameOverPanel;
+
+    [Header("New Individual Heart UI")]
+    public Image[] heartImages;      // Size 3: Drag Heart1, Heart2, Heart3 here
+    public Sprite fullHeartSprite;   // Your Full Heart PNG
+    public Sprite emptyHeartSprite;  // Your Empty Heart PNG
 
     private SpriteAnimator spriteAnimator;
     private bool isDead = false;
@@ -27,6 +35,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         audioSource = gameObject.AddComponent<AudioSource>();
         spriteAnimator = GetComponent<SpriteAnimator>();
+        
         if (spriteAnimator == null)
         {
             Debug.LogError("SpriteAnimator component not found on PlayerController!");
@@ -35,8 +44,10 @@ public class PlayerController : MonoBehaviour
         {
             spriteAnimator.SetFacingDirection(true);
         }
+
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        UpdateUI();
+        
+        UpdateUI(); 
     }
 
     void Update()
@@ -113,6 +124,9 @@ public class PlayerController : MonoBehaviour
         {
             spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Hit, false);
         }
+
+        UpdateUI();
+
         if (misses >= maxMisses)
         {
             GameOver();
@@ -128,6 +142,30 @@ public class PlayerController : MonoBehaviour
     {
         if (scoreText != null) scoreText.text = "Score: " + score;
         if (missText != null) missText.text = "Misses: " + misses + "/" + maxMisses;
+
+        // --- UPDATED HEART LOGIC ---
+        // Loops through your 3 heart images and turns them empty based on miss count
+        for (int i = 0; i < heartImages.Length; i++)
+        {
+            // If the current heart index is less than (Total - Misses), it stays full
+            if (i < (maxMisses - misses))
+            {
+                heartImages[i].sprite = fullHeartSprite;
+            }
+            else
+            {
+                heartImages[i].sprite = emptyHeartSprite;
+            }
+        }
+    }
+
+    public void Heal()
+    {
+        if (misses > 0)
+        {
+            misses--;
+            UpdateUI();
+        }
     }
 
     void GameOver()
@@ -139,30 +177,25 @@ public class PlayerController : MonoBehaviour
             spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Death, false, () =>
             {
                 Time.timeScale = 0;
-                if (gameOverPanel != null)
-                {
-                    gameOverPanel.SetActive(true);
-                    // Update the game over manager with final score
-                    GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
-                    if (gom != null)
-                    {
-                        gom.UpdateScoreDisplay();
-                    }
-                }
+                TriggerGameOverUI();
             });
         }
         else
         {
             Time.timeScale = 0;
-            if (gameOverPanel != null)
+            TriggerGameOverUI();
+        }
+    }
+
+    void TriggerGameOverUI()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
+            if (gom != null)
             {
-                gameOverPanel.SetActive(true);
-                // Update the game over manager with final score
-                GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
-                if (gom != null)
-                {
-                    gom.UpdateScoreDisplay();
-                }
+                gom.UpdateScoreDisplay();
             }
         }
     }
