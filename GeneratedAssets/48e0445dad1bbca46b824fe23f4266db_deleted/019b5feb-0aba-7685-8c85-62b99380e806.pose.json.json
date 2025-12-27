@@ -1,0 +1,11 @@
+{
+    "asset": "48e0445dad1bbca46b824fe23f4266db",
+    "fileName": "019b5feb-0aba-7685-8c85-62b99380e806.pose.json",
+    "prompt": "Create an animation for a square prefab using images from the Fireball folder.",
+    "negativePrompt": "",
+    "model": "9e46c009-67d8-4254-a3a0-32e3168247ee",
+    "modelName": "Text to Motion",
+    "customSeed": 891791038,
+    "w3CTraceId": "22f0f9928ff1b7941d8dfd8f7134a6a0",
+    "isTrimmed": false
+}
