@@ -7,7 +7,6 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     [Header("Gameplay Settings")]
-    public float hitRange = 5.0f;
     public int score = 0;
     public int misses = 0;
     public int maxMisses = 3;
@@ -71,7 +70,6 @@ public class PlayerController : MonoBehaviour
                 spriteAnimator.SetFacingDirection(faceRight);
                 spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Attack, false);
             }
-            ProcessInput(Projectile.ShapeType.Square, clickedLeft);
         }
         else if (Mouse.current.rightButton.wasPressedThisFrame)
         {
@@ -82,37 +80,23 @@ public class PlayerController : MonoBehaviour
                 spriteAnimator.SetFacingDirection(faceRight);
                 spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Attack2, false);
             }
-            ProcessInput(Projectile.ShapeType.Circle, clickedLeft);
         }
     }
 
-    void ProcessInput(Projectile.ShapeType type, bool isLeftSide)
+    /// <summary>
+    /// Called by Projectile when clicked. Handles scoring and feedback.
+    /// </summary>
+    /// <param name="wasCorrect">True if the player clicked the correct projectile</param>
+    public void ProcessProjectileClick(bool wasCorrect)
     {
-        Projectile[] all = FindObjectsOfType<Projectile>();
-        bool hitFound = false;
-        bool anyInRange = false;
-
-        foreach (Projectile p in all)
-        {
-            if (Vector3.Distance(p.transform.position, Vector3.zero) <= hitRange)
-            {
-                anyInRange = true;
-                bool pOnLeft = p.transform.position.x < 0;
-                if (p.isReal && p.shapeType == type && pOnLeft == isLeftSide)
-                    hitFound = true;
-            }
-        }
-
-        if (hitFound)
+        if (wasCorrect)
         {
             score += 100;
             audioSource.PlayOneShot(hitSound);
-            ClearScreen();
         }
-        else if (anyInRange)
+        else
         {
             RegisterMiss();
-            ClearScreen();
         }
         UpdateUI();
     }
@@ -135,9 +119,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ClearScreen()
+    public bool IsDead()
     {
-        foreach (Projectile p in FindObjectsOfType<Projectile>()) Destroy(p.gameObject);
+        return isDead;
     }
 
     void UpdateUI()
