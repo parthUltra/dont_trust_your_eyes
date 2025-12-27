@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [Header("Audio")]
     public AudioClip hitSound;
     public AudioClip missSound;
+    public AudioClip attack1Sound; // NEW: Sound for Left Click / Attack1
+    public AudioClip attack2Sound; // NEW: Sound for Right Click / Attack2
     private AudioSource audioSource;
 
     [Header("Legacy UI")]
@@ -21,9 +23,9 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverPanel;
 
     [Header("New Individual Heart UI")]
-    public Image[] heartImages;      // Size 3: Drag Heart1, Heart2, Heart3 here
-    public Sprite fullHeartSprite;   // Your Full Heart PNG
-    public Sprite emptyHeartSprite;  // Your Empty Heart PNG
+    public Image[] heartImages;      
+    public Sprite fullHeartSprite;   
+    public Sprite emptyHeartSprite;  
 
     private SpriteAnimator spriteAnimator;
     private bool isDead = false;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         audioSource = gameObject.AddComponent<AudioSource>();
         spriteAnimator = GetComponent<SpriteAnimator>();
+        
         if (spriteAnimator == null)
         {
             Debug.LogError("SpriteAnimator component not found on PlayerController!");
@@ -65,6 +68,10 @@ public class PlayerController : MonoBehaviour
         {
             bool faceRight = !clickedLeft;
             lastFacingRight = faceRight;
+            
+            // --- PLAY SWING SOUND 1 ---
+            if (attack1Sound != null) audioSource.PlayOneShot(attack1Sound);
+
             if (spriteAnimator != null)
             {
                 spriteAnimator.SetFacingDirection(faceRight);
@@ -75,6 +82,10 @@ public class PlayerController : MonoBehaviour
         {
             bool faceRight = !clickedLeft;
             lastFacingRight = faceRight;
+
+            // --- PLAY SWING SOUND 2 ---
+            if (attack2Sound != null) audioSource.PlayOneShot(attack2Sound);
+
             if (spriteAnimator != null)
             {
                 spriteAnimator.SetFacingDirection(faceRight);
@@ -83,10 +94,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called by Projectile when clicked. Handles scoring and feedback.
-    /// </summary>
-    /// <param name="wasCorrect">True if the player clicked the correct projectile</param>
     public void ProcessProjectileClick(bool wasCorrect)
     {
         if (wasCorrect)
@@ -119,20 +126,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool IsDead()
-    {
-        return isDead;
-    }
+    public bool IsDead() => isDead;
 
     void UpdateUI()
     {
         if (scoreText != null) scoreText.text = "Score: " + score;
 
-        // --- UPDATED HEART LOGIC ---
-        // Loops through your 3 heart images and turns them empty based on miss count
         for (int i = 0; i < heartImages.Length; i++)
         {
-            // If the current heart index is less than (Total - Misses), it stays full
             if (i < (maxMisses - misses))
             {
                 heartImages[i].sprite = fullHeartSprite;
@@ -152,26 +153,20 @@ public class PlayerController : MonoBehaviour
             UpdateUI();
         }
     }
+
     void ClearAllPowerups()
     {
-        foreach (PowerupBase powerup in FindObjectsOfType<PowerupBase>())
-        {
-            Destroy(powerup.gameObject);
-        }
+        foreach (PowerupBase powerup in FindObjectsOfType<PowerupBase>()) Destroy(powerup.gameObject);
     }
 
     void ClearAllProjectiles()
     {
-        foreach (Projectile projectile in FindObjectsOfType<Projectile>())
-        {
-            Destroy(projectile.gameObject);
-        }
+        foreach (Projectile projectile in FindObjectsOfType<Projectile>()) Destroy(projectile.gameObject);
     }
 
     void GameOver()
     {
         isDead = true;
-
         if (spriteAnimator != null)
         {
             spriteAnimator.PlayAnimation(SpriteAnimator.AnimationState.Death, false, () =>
@@ -192,30 +187,19 @@ public class PlayerController : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+            if (scoreText != null) scoreText.gameObject.SetActive(false);
 
-            if (scoreText != null)
-            {
-                scoreText.gameObject.SetActive(false);
-            }
-
-            // Stop the spawners
             Spawner spawner = FindObjectOfType<Spawner>();
-            if (spawner != null)
-            {
-                spawner.StopSpawning();
-            }
-            PowerupSpawner powerupSpawner = FindObjectOfType<PowerupSpawner>();
-            if (powerupSpawner != null)
-            {
-                powerupSpawner.StopSpawning();
-            }
+            if (spawner != null) spawner.StopSpawning();
+
+            PowerupSpawner pSpawner = FindObjectOfType<PowerupSpawner>();
+            if (pSpawner != null) pSpawner.StopSpawning();
+
             ClearAllPowerups();
             ClearAllProjectiles();
+
             GameOverManager gom = gameOverPanel.GetComponent<GameOverManager>();
-            if (gom != null)
-            {
-                gom.UpdateScoreDisplay();
-            }
+            if (gom != null) gom.UpdateScoreDisplay();
         }
     }
 
