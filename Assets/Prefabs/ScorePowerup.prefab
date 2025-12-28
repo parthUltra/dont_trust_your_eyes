@@ -143,4 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScorePowerup
   lifetime: 5
   despawnAnimDuration: 0.5
-  collectSound: {fileID: 0}
+  collectSound: {fileID: 8300000, guid: b1a0ae3cb0be1b9428a331f8536d0aa6, type: 3}
