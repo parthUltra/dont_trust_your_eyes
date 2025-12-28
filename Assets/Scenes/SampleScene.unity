@@ -1382,6 +1382,9 @@ MonoBehaviour:
   - powerupPrefab: {fileID: 2289423842900222504, guid: fc83fe7d9ba7b2341a020e9e2b4cdc27, type: 3}
     spawnWeight: 1
     spawnInterval: {x: 5, y: 15}
+  - powerupPrefab: {fileID: 2289423842900222504, guid: 226c9e30056a58a45a2b5ef71bae13bb, type: 3}
+    spawnWeight: 1
+    spawnInterval: {x: 5, y: 15}
   spawnAreaMin: {x: -8, y: -4}
   spawnAreaMax: {x: 8, y: 4}
   maxActivePowerups: 2
@@ -2111,11 +2114,13 @@ MonoBehaviour:
   score: 0
   misses: 0
   maxMisses: 3
+  scoreMultiplier: 1
   hitSound: {fileID: 8300000, guid: 3cccc30b570d4f847b4c053b53320169, type: 3}
   missSound: {fileID: 8300000, guid: 0ec77b642dea39a45ab7a0068cc41e5d, type: 3}
   attack1Sound: {fileID: 8300000, guid: 9541305ab6942ce44ba0789fde51acab, type: 3}
   attack2Sound: {fileID: 8300000, guid: b8893e888f2cd3d4588bba1477d1a2f8, type: 3}
   healSound: {fileID: 8300000, guid: 381f9492dcbe01d4b9810aab0d4658ee, type: 3}
+  multiplierSound: {fileID: 0}
   scoreText: {fileID: 1467986229}
   gameOverPanel: {fileID: 229778725}
   heartImages:

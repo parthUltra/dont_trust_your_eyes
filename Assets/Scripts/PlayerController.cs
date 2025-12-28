@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public int score = 0;
     public int misses = 0;
     public int maxMisses = 3;
+    public int scoreMultiplier = 1; // [NEW] Tracking the current multiplier
 
     [Header("Audio")]
     public AudioClip hitSound;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip attack1Sound;
     public AudioClip attack2Sound;
     public AudioClip healSound;
+    public AudioClip multiplierSound; // [OPTIONAL] Sound for picking up multiplier
     private AudioSource audioSource;
 
     [Header("Legacy UI")]
@@ -70,7 +72,6 @@ public class PlayerController : MonoBehaviour
             bool faceRight = !clickedLeft;
             lastFacingRight = faceRight;
             
-            // --- PLAY SWING SOUND 1 ---
             if (attack1Sound != null) audioSource.PlayOneShot(attack1Sound);
 
             if (spriteAnimator != null)
@@ -84,7 +85,6 @@ public class PlayerController : MonoBehaviour
             bool faceRight = !clickedLeft;
             lastFacingRight = faceRight;
 
-            // --- PLAY SWING SOUND 2 ---
             if (attack2Sound != null) audioSource.PlayOneShot(attack2Sound);
 
             if (spriteAnimator != null)
@@ -99,7 +99,8 @@ public class PlayerController : MonoBehaviour
     {
         if (wasCorrect)
         {
-            score += 100;
+            // [MODIFIED] Apply the multiplier to the score gain
+            score += (100 * scoreMultiplier);
             audioSource.PlayOneShot(hitSound);
         }
         else
@@ -112,6 +113,10 @@ public class PlayerController : MonoBehaviour
     public void RegisterMiss()
     {
         misses++;
+        
+        // [NEW] Reset multiplier to 1 when damage is taken
+        scoreMultiplier = 1;
+        
         audioSource.PlayOneShot(missSound);
 
         if (spriteAnimator != null)
@@ -131,7 +136,8 @@ public class PlayerController : MonoBehaviour
 
     void UpdateUI()
     {
-        if (scoreText != null) scoreText.text = "Score: " + score;
+        // [MODIFIED] Display the current multiplier in the UI
+        if (scoreText != null) scoreText.text = $"Score: {score} (x{scoreMultiplier})";
 
         for (int i = 0; i < heartImages.Length; i++)
         {
@@ -157,6 +163,17 @@ public class PlayerController : MonoBehaviour
             }
             UpdateUI();
         }
+    }
+
+    // [NEW] Method to be called by the ScorePowerup
+    public void AddMultiplier()
+    {
+        scoreMultiplier++;
+        if (multiplierSound != null)
+        {
+            audioSource.PlayOneShot(multiplierSound);
+        }
+        UpdateUI();
     }
 
     void ClearAllPowerups()

@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// True Sight powerup that forces the spawner to skip fake projectiles.
-/// </summary>
 public class TrueSightPowerup : PowerupBase
 {
     [Header("True Sight Settings")]
@@ -13,6 +10,7 @@ public class TrueSightPowerup : PowerupBase
         Spawner spawner = FindObjectOfType<Spawner>();
         if (spawner != null)
         {
+            // Trigger the special spawning mode
             spawner.ActivateTrueSight(duration);
             Debug.Log("True Sight activated! Fake projectiles hidden.");
         }
@@ -22,7 +20,7 @@ public class TrueSightPowerup : PowerupBase
     {
         Spawner spawner = FindObjectOfType<Spawner>();
         
-        // Allowed to spawn at full health, but not if True Sight is already active
+        // Spawn at full health, but don't overlap if active
         return player != null && !player.IsDead() && 
                spawner != null && !spawner.IsTrueSightActive();
     }
