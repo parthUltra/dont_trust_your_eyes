@@ -1499,7 +1499,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Don't Trust Yor Eyes...Listern!!!
+  m_text: Don't Trust Your Eyes...Listen!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_sharedMaterial: {fileID: 524482608573595767, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
@@ -3351,7 +3351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Instrucitons
+  m_text: Instructions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_sharedMaterial: {fileID: 524482608573595767, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
