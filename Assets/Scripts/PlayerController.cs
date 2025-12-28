@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections; // [NEW] Required for Coroutines
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +11,13 @@ public class PlayerController : MonoBehaviour
     public int score = 0;
     public int misses = 0;
     public int maxMisses = 3;
-    public int scoreMultiplier = 1; // [NEW] Tracking the current multiplier
+    public int scoreMultiplier = 1;
+
+    [Header("UI Effects Settings")] // [NEW] Controls for your effects
+    public float shakeScale = 1.1f;
+    public float shakeDuration = 0.1f;
+    public Color multiplierFlashColor = Color.yellow;
+    public float flashDuration = 0.2f;
 
     [Header("Audio")]
     public AudioClip hitSound;
@@ -18,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip attack1Sound;
     public AudioClip attack2Sound;
     public AudioClip healSound;
-    public AudioClip multiplierSound; // [OPTIONAL] Sound for picking up multiplier
+    public AudioClip multiplierSound; 
     private AudioSource audioSource;
 
     [Header("Legacy UI")]
@@ -33,6 +40,12 @@ public class PlayerController : MonoBehaviour
     private SpriteAnimator spriteAnimator;
     private bool isDead = false;
     private bool lastFacingRight = true;
+
+    // [NEW] To track original UI states
+    private Vector3 originalScale;
+    private Color originalColor;
+    private Coroutine flashCoroutine;
+    private Coroutine shakeCoroutine;
 
     void Start()
     {
@@ -50,10 +63,15 @@ public class PlayerController : MonoBehaviour
         }
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        
         if (scoreText != null)
         {
             scoreText.gameObject.SetActive(true);
+            // [NEW] Store the original scale and color for resetting later
+            originalScale = scoreText.transform.localScale;
+            originalColor = scoreText.color;
         }
+        
         UpdateUI();
     }
 
@@ -99,9 +117,12 @@ public class PlayerController : MonoBehaviour
     {
         if (wasCorrect)
         {
-            // [MODIFIED] Apply the multiplier to the score gain
             score += (100 * scoreMultiplier);
             audioSource.PlayOneShot(hitSound);
+            
+            // [NEW] Trigger the shake effect
+            if (shakeCoroutine != null) StopCoroutine(shakeCoroutine);
+            shakeCoroutine = StartCoroutine(ShakeScoreUI());
         }
         else
         {
@@ -113,8 +134,6 @@ public class PlayerController : MonoBehaviour
     public void RegisterMiss()
     {
         misses++;
-        
-        // [NEW] Reset multiplier to 1 when damage is taken
         scoreMultiplier = 1;
         
         audioSource.PlayOneShot(missSound);
@@ -136,7 +155,6 @@ public class PlayerController : MonoBehaviour
 
     void UpdateUI()
     {
-        // [MODIFIED] Display the current multiplier in the UI
         if (scoreText != null) scoreText.text = $"Score: {score} (x{scoreMultiplier})";
 
         for (int i = 0; i < heartImages.Length; i++)
@@ -165,7 +183,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // [NEW] Method to be called by the ScorePowerup
     public void AddMultiplier()
     {
         scoreMultiplier++;
@@ -173,7 +190,30 @@ public class PlayerController : MonoBehaviour
         {
             audioSource.PlayOneShot(multiplierSound);
         }
+
+        // [NEW] Trigger the flash effect
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(FlashMultiplierUI());
+
         UpdateUI();
+    }
+
+    // [NEW] Shake Coroutine: Briefly scales the UI up
+    private IEnumerator ShakeScoreUI()
+    {
+        if (scoreText == null) yield break;
+        scoreText.transform.localScale = originalScale * shakeScale;
+        yield return new WaitForSeconds(shakeDuration);
+        scoreText.transform.localScale = originalScale;
+    }
+
+    // [NEW] Flash Coroutine: Briefly changes the color
+    private IEnumerator FlashMultiplierUI()
+    {
+        if (scoreText == null) yield break;
+        scoreText.color = multiplierFlashColor;
+        yield return new WaitForSeconds(flashDuration);
+        scoreText.color = originalColor;
     }
 
     void ClearAllPowerups()
