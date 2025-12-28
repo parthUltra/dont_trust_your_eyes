@@ -604,6 +604,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Standalone: APP_UI_EDITOR_ONLY
     WebGL: APP_UI_EDITOR_ONLY
+    Windows Store Apps: APP_UI_EDITOR_ONLY
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
