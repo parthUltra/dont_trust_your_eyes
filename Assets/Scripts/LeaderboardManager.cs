@@ -149,8 +149,13 @@ public class LeaderboardManager : MonoBehaviour
                     usernameInput.text = "";
                 }
 
-                // Reload leaderboard with a small delay to allow server to process
-                StartCoroutine(ReloadLeaderboardAfterDelay(1.5f));
+                // Reset player's UserGuid so next game session can submit as a new user
+                LeaderboardCreator.ResetPlayer(() =>
+                {
+                    Debug.Log("Player UserGuid reset - next game session can submit a new entry");
+                    // Reload leaderboard with a small delay to allow server to process
+                    StartCoroutine(ReloadLeaderboardAfterDelay(1.5f));
+                });
             }
             else
             {

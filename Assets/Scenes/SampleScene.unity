@@ -249,7 +249,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 74b503ebbe21d904487d9ed97a1149ce, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_KeepTextSelectionVisible: 0
@@ -2610,8 +2610,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter Name....
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 74b503ebbe21d904487d9ed97a1149ce, type: 2}
-  m_sharedMaterial: {fileID: -8105368494026765078, guid: 74b503ebbe21d904487d9ed97a1149ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
+  m_sharedMaterial: {fileID: 524482608573595767, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3162,6 +3162,10 @@ MonoBehaviour:
   misses: 0
   maxMisses: 3
   scoreMultiplier: 1
+  shakeScale: 1.1
+  shakeDuration: 0.1
+  multiplierFlashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flashDuration: 0.2
   hitSound: {fileID: 8300000, guid: 3cccc30b570d4f847b4c053b53320169, type: 3}
   missSound: {fileID: 8300000, guid: 0ec77b642dea39a45ab7a0068cc41e5d, type: 3}
   attack1Sound: {fileID: 8300000, guid: 9541305ab6942ce44ba0789fde51acab, type: 3}
@@ -3360,7 +3364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '>'
+  m_text: "\u25B6"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_sharedMaterial: {fileID: 524482608573595767, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
@@ -3736,8 +3740,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 74b503ebbe21d904487d9ed97a1149ce, type: 2}
-  m_sharedMaterial: {fileID: -8105368494026765078, guid: 74b503ebbe21d904487d9ed97a1149ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
+  m_sharedMaterial: {fileID: 524482608573595767, guid: e7e9b4fc212fe5946a28b8043ec3340e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
