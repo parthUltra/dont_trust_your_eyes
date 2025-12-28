@@ -6,11 +6,12 @@ public class GameOverManager : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI finalScoreText;
-    public TextMeshProUGUI highScoreText;
     public AudioClip buttonClickSound;
     
+    [Header("Leaderboard")]
+    public LeaderboardManager leaderboardManager;
+    
     private AudioSource audioSource;
-    private const string HIGH_SCORE_KEY = "HighScore";
 
     void Start()
     {
@@ -25,25 +26,17 @@ public class GameOverManager : MonoBehaviour
         if (player != null)
         {
             int currentScore = player.score;
-            int highScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
-
-            // Update high score if current score is higher
-            if (currentScore > highScore)
-            {
-                highScore = currentScore;
-                PlayerPrefs.SetInt(HIGH_SCORE_KEY, highScore);
-                PlayerPrefs.Save();
-            }
 
             // Update UI
             if (finalScoreText != null)
             {
                 finalScoreText.text = "Final Score: " + currentScore;
             }
-
-            if (highScoreText != null)
+            
+            // Set score for leaderboard manager
+            if (leaderboardManager != null)
             {
-                highScoreText.text = "High Score: " + highScore;
+                leaderboardManager.SetScore(currentScore);
             }
         }
     }
