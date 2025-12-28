@@ -1379,6 +1379,9 @@ MonoBehaviour:
   - powerupPrefab: {fileID: 2289423842900222504, guid: b46c46c4a32f449408dbb0abe5917ab4, type: 3}
     spawnWeight: 1
     spawnInterval: {x: 5, y: 15}
+  - powerupPrefab: {fileID: 2289423842900222504, guid: fc83fe7d9ba7b2341a020e9e2b4cdc27, type: 3}
+    spawnWeight: 1
+    spawnInterval: {x: 5, y: 15}
   spawnAreaMin: {x: -8, y: -4}
   spawnAreaMax: {x: 8, y: 4}
   maxActivePowerups: 2
