@@ -130,7 +130,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.1
+  m_Radius: 0.28
 --- !u!95 &4655855058513039302
 Animator:
   serializedVersion: 7
@@ -184,4 +184,4 @@ MonoBehaviour:
   lifetime: 5
   despawnAnimDuration: 0.5
   collectSound: {fileID: 8300000, guid: 98d2616db47222e43833d30d9a9fe84e, type: 3}
-  duration: 3
+  duration: 5
