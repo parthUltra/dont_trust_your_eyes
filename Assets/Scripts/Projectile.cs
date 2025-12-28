@@ -47,8 +47,8 @@ public class Projectile : MonoBehaviour
         }
 
         // Physics Setup
-        Rigidbody2D rb = GetComponent<Rigidbody2D>() ?? gameObject.AddComponent<Rigidbody2D>();
-        rb.isKinematic = true;
+        // Rigidbody2D rb = GetComponent<Rigidbody2D>() ?? gameObject.AddComponent<Rigidbody2D>();
+        // rb.isKinematic = true;
         
         Collider2D collider = GetComponent<Collider2D>() ?? gameObject.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;

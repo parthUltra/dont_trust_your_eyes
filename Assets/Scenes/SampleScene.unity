@@ -2451,8 +2451,6 @@ RectTransform:
   - {fileID: 229778726}
   - {fileID: 2117015168}
   - {fileID: 1467986228}
-  - {fileID: 1920104728}
-  - {fileID: 1631654040}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2968,11 +2966,11 @@ Transform:
   m_GameObject: {fileID: 1631654039}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: 0, z: 0}
+  m_LocalPosition: {x: -8.88, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1269343755}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1631654041
 AudioSource:
@@ -2996,9 +2994,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 1920
-  Pan2D: -1
-  rolloffMode: 0
+  MaxDistance: 50
+  Pan2D: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3031,7 +3029,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3338,7 +3336,7 @@ MonoBehaviour:
   attack1Sound: {fileID: 8300000, guid: 9541305ab6942ce44ba0789fde51acab, type: 3}
   attack2Sound: {fileID: 8300000, guid: b8893e888f2cd3d4588bba1477d1a2f8, type: 3}
   healSound: {fileID: 8300000, guid: 381f9492dcbe01d4b9810aab0d4658ee, type: 3}
-  multiplierSound: {fileID: 0}
+  multiplierSound: {fileID: 8300000, guid: b1a0ae3cb0be1b9428a331f8536d0aa6, type: 3}
   scoreText: {fileID: 1467986229}
   gameOverPanel: {fileID: 229778725}
   heartImages:
@@ -3500,11 +3498,11 @@ Transform:
   m_GameObject: {fileID: 1920104727}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 960, y: 0, z: 0}
+  m_LocalPosition: {x: 8.88, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1269343755}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1920104729
 AudioSource:
@@ -3528,9 +3526,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 1920
-  Pan2D: 1
-  rolloffMode: 0
+  MaxDistance: 50
+  Pan2D: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3563,7 +3561,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4160,6 +4158,8 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1828324539}
   - {fileID: 1968302028}
+  - {fileID: 1631654040}
+  - {fileID: 1920104728}
   - {fileID: 1269343755}
   - {fileID: 1499300954}
   - {fileID: 1066790000}
