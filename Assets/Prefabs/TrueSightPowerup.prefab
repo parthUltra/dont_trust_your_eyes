@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b1adfaf0dbbe04b9be31c79101fd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrueSightPowerup
-  lifetime: 5
+  lifetime: 3
   despawnAnimDuration: 0.5
   collectSound: {fileID: 8300000, guid: 98d2616db47222e43833d30d9a9fe84e, type: 3}
   duration: 5
