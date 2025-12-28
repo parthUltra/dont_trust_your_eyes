@@ -2995,7 +2995,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 50
-  Pan2D: 0
+  Pan2D: -1
   rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -3527,7 +3527,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 50
-  Pan2D: 0
+  Pan2D: 1
   rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
