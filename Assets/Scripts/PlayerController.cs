@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour
     [Header("Audio")]
     public AudioClip hitSound;
     public AudioClip missSound;
-    public AudioClip attack1Sound; // NEW: Sound for Left Click / Attack1
-    public AudioClip attack2Sound; // NEW: Sound for Right Click / Attack2
+    public AudioClip attack1Sound;
+    public AudioClip attack2Sound;
+    public AudioClip healSound;
     private AudioSource audioSource;
 
     [Header("Legacy UI")]
@@ -150,6 +151,10 @@ public class PlayerController : MonoBehaviour
         if (misses > 0)
         {
             misses--;
+            if (healSound != null)
+            {
+                audioSource.PlayOneShot(healSound);
+            }
             UpdateUI();
         }
     }

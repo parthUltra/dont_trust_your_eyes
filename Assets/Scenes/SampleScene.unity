@@ -2112,6 +2112,7 @@ MonoBehaviour:
   missSound: {fileID: 8300000, guid: 0ec77b642dea39a45ab7a0068cc41e5d, type: 3}
   attack1Sound: {fileID: 8300000, guid: 9541305ab6942ce44ba0789fde51acab, type: 3}
   attack2Sound: {fileID: 8300000, guid: b8893e888f2cd3d4588bba1477d1a2f8, type: 3}
+  healSound: {fileID: 8300000, guid: 381f9492dcbe01d4b9810aab0d4658ee, type: 3}
   scoreText: {fileID: 1467986229}
   gameOverPanel: {fileID: 229778725}
   heartImages:
