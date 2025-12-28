@@ -5,75 +5,78 @@ public class Projectile : MonoBehaviour
     public enum ShapeType { Square, Circle }
     public ShapeType shapeType;
     public bool isReal;
-    public float speed; // Speed is now set by the Spawner
+    public float speed; 
 
-    private AudioSource audioSource;
     private PlayerController playerController;
     private bool hasBeenHit = false;
 
+    [Header("Static Approach Audio")]
+    [SerializeField] private AudioClip fireballApproachSound; // Assign Square SFX
+    [SerializeField] private AudioClip electricApproachSound; // Assign Circle SFX
+    
+    private AudioSource activeSpeaker; // Tracks which speaker is playing for this object
+
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource != null)
-        {
-            // Only the real projectile makes directional sound
-            audioSource.mute = !isReal;
-        }
-
         playerController = FindObjectOfType<PlayerController>();
 
-        // Ensure there's a Rigidbody2D (required for trigger detection)
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
+        // Only the "Real" projectile triggers the directional approach sound
+        if (isReal)
         {
-            rb = gameObject.AddComponent<Rigidbody2D>();
-            rb.isKinematic = true;
-            rb.gravityScale = 0f;
+            // 1. Locate speakers in the scene
+            GameObject leftObj = GameObject.Find("LeftAudioSource");
+            GameObject rightObj = GameObject.Find("RightAudioSource");
+
+            // 2. Identify side and set the activeSpeaker
+            if (IsOnLeftSide() && leftObj != null)
+                activeSpeaker = leftObj.GetComponent<AudioSource>();
+            else if (!IsOnLeftSide() && rightObj != null)
+                activeSpeaker = rightObj.GetComponent<AudioSource>();
+
+            // 3. Play sound if a speaker was found
+            if (activeSpeaker != null)
+            {
+                AudioClip clipToPlay = (shapeType == ShapeType.Square) ? fireballApproachSound : electricApproachSound;
+                if (clipToPlay != null)
+                {
+                    // Use Play() instead of PlayOneShot() so we can stop it later
+                    activeSpeaker.clip = clipToPlay;
+                    activeSpeaker.Play();
+                }
+            }
         }
 
-        // Ensure there's a collider on this projectile
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider == null)
-        {
-            Debug.LogWarning($"Projectile {gameObject.name} is missing a Collider2D component! Adding CircleCollider2D as default.");
-            CircleCollider2D newCollider = gameObject.AddComponent<CircleCollider2D>();
-            newCollider.isTrigger = true;
-        }
-        else
-        {
-            collider.isTrigger = true;
-        }
+        // Physics Setup
+        Rigidbody2D rb = GetComponent<Rigidbody2D>() ?? gameObject.AddComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        
+        Collider2D collider = GetComponent<Collider2D>() ?? gameObject.AddComponent<CircleCollider2D>();
+        collider.isTrigger = true;
     }
 
     void Update()
     {
-        // Moves toward the center
         transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, speed * Time.deltaTime);
 
-        // Auto-destruct and register miss if real projectile hits center
         if (Vector3.Distance(transform.position, Vector3.zero) < 0.1f)
         {
-            if (isReal && !hasBeenHit)
-            {
-                if (playerController != null) 
-                    playerController.RegisterMiss();
-            }
+            if (isReal && !hasBeenHit && playerController != null) 
+                playerController.RegisterMiss();
+            
             Destroy(gameObject);
         }
     }
 
-    public bool HasBeenHit()
+    // [NEW] Logic to stop audio immediately when this projectile is removed
+    private void OnDestroy()
     {
-        return hasBeenHit;
+        if (activeSpeaker != null && activeSpeaker.isPlaying)
+        {
+            activeSpeaker.Stop();
+        }
     }
 
-    public void OnSwordHit(bool wasCorrect)
-    {
-        hasBeenHit = true;
-    }
-
-    public bool IsOnLeftSide()
-    {
-        return transform.position.x < 0;
-    }
+    public bool HasBeenHit() => hasBeenHit;
+    public void OnSwordHit(bool wasCorrect) => hasBeenHit = true;
+    public bool IsOnLeftSide() => transform.position.x < 0;
 }
